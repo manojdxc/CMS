@@ -1,0 +1,34 @@
+<h1>Case Management System</h1>
+
+<p>This component demonstrates ticket data from the server.</p>
+
+<p *ngIf="!tickets"><em>Loading...</em></p>
+<table class="table" *ngIf="tickets">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Category</th>
+      <th>Created Date</th>
+      <th>Created By</th>
+      <th>Updated Date</th>
+      <th>Updated By</th>
+    </tr>
+  </thead>
+  <tbody>    
+    <tr *ngFor="let ticket of tickets">      
+      <td>{{ ticket.id }}</td>
+      <td>{{ ticket.description }}</td>
+      <td>{{ ticket.status }}</td>
+      <td>{{ ticket.category }}</td>
+      <td>{{ ticket.createdDate }}</td>
+      <td>{{ ticket.createdBy }}</td>
+      <td>{{ ticket.updatedDate }}</td>
+      <td>{{ ticket.updatedBy }}</td>
+    </tr>
+    <tr>
+      <td><a (click)>Create New Ticket</a></td>
+    </tr>
+  </tbody>
+</table>
