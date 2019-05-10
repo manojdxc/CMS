@@ -12,8 +12,6 @@
       <th>Category</th>
       <th>Created Date</th>
       <th>Created By</th>
-      <th>Updated Date</th>
-      <th>Updated By</th>
     </tr>
   </thead>
   <tbody>    
@@ -22,13 +20,11 @@
       <td>{{ ticket.description }}</td>
       <td>{{ ticket.status }}</td>
       <td>{{ ticket.category }}</td>
-      <td>{{ ticket.createdDate }}</td>
+      <td>{{ ticket.createdDate | date }}</td>
       <td>{{ ticket.createdBy }}</td>
-      <td>{{ ticket.updatedDate }}</td>
-      <td>{{ ticket.updatedBy }}</td>
     </tr>
     <tr>
-      <!--<td><a (click)>Create New Ticket</a></td>-->
+      <td><a [routerLink]='["/createticket"]'>Create new ticket</a></td>
     </tr>
   </tbody>
 </table>

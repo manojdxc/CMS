@@ -22,8 +22,6 @@ interface Ticket {
   description: string;
   status: string;
   category: string;
-  createdDate: Date;
-  updatedDate: Date
-  createdBy: string,
-  updatedBy: string,  
+  createdDate: Date;  
+  createdBy: string
 }

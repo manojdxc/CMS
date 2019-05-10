@@ -1,14 +1,30 @@
-<table class="table">
+<h3>Create New Ticket</h3>
+<table class="table">  
   <thead>
-    <tr>Field</tr>
-    <tr>Value</tr>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>    
   </thead>
   <tbody>
     <tr>
       <td><label>Id</label></td>
-      <td><input type="text"/></td>
+      <td><input type="text" [(ngModel)]="ID"/></td>
     </tr>
-    <tr></tr>
+    <tr>
+      <td><label>Description</label></td>
+      <td><input type="text" [(ngModel)]="Description"/></td>
+    </tr>
+    <tr>
+      <td><label>Status</label></td>
+      <td><input type="text" [(ngModel)]="Status"/></td>
+    </tr>
+    <tr>
+      <td>
+        <button (click)="saveticket()">Save Ticket</button>
+      </td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
