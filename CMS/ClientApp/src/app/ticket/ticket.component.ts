@@ -1,19 +1,21 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 @Component({
   selector:'app-ticket',
   templateUrl: './ticket.component.html'
 })
 
-export class TicketComponent {
+export class TicketComponent implements OnInit{
   public tickets: Ticket[];
   
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    
-    http.get<Ticket[]>(baseUrl + 'api/CMS/GetTickets').subscribe(result => {
-      this.tickets = result;      
-    }, error => console.error(error));
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+        
   };
+  ngOnInit() {
+    this.http.get<Ticket[]>(this.baseUrl + 'api/CMS/GetTickets').subscribe(result => {
+      this.tickets = result;
+    }, error => console.error(error));
+  }
   
 }
 

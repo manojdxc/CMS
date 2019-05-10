@@ -15,39 +15,30 @@ namespace CMS.Controllers
         [HttpGet("[action]")]        
         public IEnumerable<Ticket> GetTickets()
         {
-            return GetTicketDetails();
-            //return Enumerable.Range(1, 1).Select(index => new Ticket
-            //{
-            //    Id="T000001",
-            //    Description = "Laptop not working",
-            //    Category ="Laptop",
-            //    Status="Pending",
-            //    CreatedBy="User01",
-            //    CreatedDate = DateTime.Now,                     
-            //});
+            return GetTicketDetails();           
         }
-        //[HttpPost("[action]")]
-        //public void InsertTicket(string id, string description)
-        //{
-
-        //    //, string status, string category, string createdby
-        //}
         [HttpPost("[action]")]
         public void InsertTicket([FromBody] Ticket ticket)
         {
-            System.IO.File.WriteAllText("C:\test.txt", ticket.Description);
+            //System.IO.File.WriteAllText("C:\test.txt", ticket.Description);
             //, string status, string category, string createdby
             using (SqlConnection sqlconn = new SqlConnection(@"Data Source=INPF0Y6P5J\LOCALSQLSERVER;Initial Catalog=CMS;Integrated Security=True;"))
             {
                 sqlconn.Open();
 
-                string stmt = "INSERT INTO [dbo].[Tickets](Id, Description) VALUES(@ID, @Description)";
+                string stmt = "INSERT INTO [dbo].[Tickets](Description,Status,Category,CreatedBy,CreatedDate) VALUES(@Description, @Status, @Category, @CreatedBy, @CreatedDate)";
                 SqlCommand cmd = new SqlCommand(stmt, sqlconn);
-                cmd.Parameters.Add("@ID", SqlDbType.VarChar);
+                cmd.Parameters.Add("@Status", SqlDbType.VarChar);
                 cmd.Parameters.Add("@Description", SqlDbType.VarChar, 100);
+                cmd.Parameters.Add("@Category", SqlDbType.VarChar, 100);
+                cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar, 100);
+                cmd.Parameters.Add("@CreatedDate", SqlDbType.Date);
 
-                cmd.Parameters["@ID"].Value = ticket.Id;
-                cmd.Parameters["@Description"].Value = ticket.Description;                                    
+                cmd.Parameters["@Status"].Value = ticket.Status;
+                cmd.Parameters["@Description"].Value = ticket.Description;
+                cmd.Parameters["@Category"].Value = ticket.Category;
+                cmd.Parameters["@CreatedBy"].Value = ticket.CreatedBy;
+                cmd.Parameters["@CreatedDate"].Value = ticket.CreatedDate;
                 cmd.ExecuteNonQuery();                
             }
         }
