@@ -12,6 +12,20 @@ namespace CMS.Controllers
     [Route("api/[controller]")]
     public class CMSController : Controller
     {
+        [HttpGet("[action]")]
+        public string ReverseString(string stringvalue)
+        {
+            //do reverse            
+            char[] characters = stringvalue.ToCharArray();
+            Array.Reverse(characters);
+            string reversedstring = new string(characters);
+
+            //save into db 
+            
+            //return value
+            return reversedstring;
+        }
+
         [HttpGet("[action]")]        
         public IEnumerable<Ticket> GetTickets()
         {

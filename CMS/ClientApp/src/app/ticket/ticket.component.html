@@ -33,3 +33,24 @@
     </tr>
   </tbody>
 </table>
+<table>
+  <caption>Reverse a string</caption>
+  <tbody>
+    <tr>
+      <td>
+        <label>Enter a string:</label>
+      </td>
+      <td>
+        <input type="text" [(ngModel)]="stringvalue" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button (click)="submitClick()">Reverse this string</button>
+      </td>
+      <td>
+        <label>{{revstr}}</label>
+      </td>
+    </tr>
+  </tbody>
+</table>
