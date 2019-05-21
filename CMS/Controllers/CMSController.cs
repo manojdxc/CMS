@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,15 +16,21 @@ namespace CMS.Controllers
         [HttpGet("[action]")]
         public string ReverseString(string stringvalue)
         {
-            //do reverse            
-            char[] characters = stringvalue.ToCharArray();
-            Array.Reverse(characters);
-            string reversedstring = new string(characters);
+            StringBuilder reversedString = new StringBuilder();
+            //do reverse 
+            string[] vstrings = stringvalue.Split(' ');
+            foreach(var str in vstrings)
+            {
+                char[] characters = str.ToCharArray();
+                Array.Reverse(characters);
+                reversedString.Append(new string(characters));
+                reversedString.Append(" ");
+            }            
 
             //save into db 
-            
+            InsertReversedStringToDB(reversedString.ToString());
             //return value
-            return reversedstring;
+            return reversedString.ToString();
         }
 
         [HttpGet("[action]")]        
@@ -36,11 +43,12 @@ namespace CMS.Controllers
         {
             //System.IO.File.WriteAllText("C:\test.txt", ticket.Description);
             //, string status, string category, string createdby
-            using (SqlConnection sqlconn = new SqlConnection(@"Data Source=INPF0Y6P5J\LOCALSQLSERVER;Initial Catalog=CMS;Integrated Security=True;"))
+            using (SqlConnection sqlconn = new SqlConnection(@"Data Source=DESKTOP-18CPEK0\SQLSERVER;Initial Catalog=CMS;Integrated Security=True;"))
             {
                 sqlconn.Open();
 
                 string stmt = "INSERT INTO [dbo].[Tickets](Description,Status,Category,CreatedBy,CreatedDate) VALUES(@Description, @Status, @Category, @CreatedBy, @CreatedDate)";
+
                 SqlCommand cmd = new SqlCommand(stmt, sqlconn);
                 cmd.Parameters.Add("@Status", SqlDbType.VarChar);
                 cmd.Parameters.Add("@Description", SqlDbType.VarChar, 100);
@@ -59,7 +67,7 @@ namespace CMS.Controllers
         private List<Ticket> GetTicketDetails()
         {
             List<Ticket> tickets = new List<Ticket>();
-            using (SqlConnection sqlconn = new SqlConnection(@"Data Source=INPF0Y6P5J\LOCALSQLSERVER;Initial Catalog=CMS;Integrated Security=True;"))
+            using (SqlConnection sqlconn = new SqlConnection(@"Data Source=DESKTOP-18CPEK0\SQLSERVER;Initial Catalog=CMS;Integrated Security=True;"))
             {
                 sqlconn.Open();
                 SqlCommand cmd = new SqlCommand("select * from [dbo].[Tickets]", sqlconn);
@@ -86,6 +94,25 @@ namespace CMS.Controllers
             public string Category { get; set; }
             public DateTime CreatedDate { get; set; }            
             public string CreatedBy { get; set; }            
+        }
+        
+        public void InsertReversedStringToDB(string value)
+        {       
+            
+            //ADO.NET Connection
+            using (SqlConnection sqlconn = new SqlConnection(@"Data Source=DESKTOP-18CPEK0\SQLSERVER;Initial Catalog=CMS;Integrated Security=True;"))
+            {
+                sqlconn.Open();
+
+                string stmt = "INSERT INTO [dbo].[Test](Description) VALUES(@Description)";
+
+                SqlCommand cmd = new SqlCommand(stmt, sqlconn);
+                cmd.Parameters.Add("@Description", SqlDbType.VarChar);
+
+                cmd.Parameters["@Description"].Value = value;
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
